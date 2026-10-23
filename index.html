@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browser History Simulator</title>
+<style>
+body{margin:0;background:#eef2f8;font-family:Arial;color:#17233c}
+header{background:#17233c;color:white;padding:24px;text-align:center}
+main{max-width:750px;margin:30px auto;padding:20px}
+.card{background:white;padding:22px;border-radius:15px;
+box-shadow:0 5px 20px #ccd2df;margin-bottom:18px}
+input{padding:13px;width:65%;border:1px solid #ccd2df;
+border-radius:8px;font-size:15px}
+button{padding:12px;margin:5px;border:0;border-radius:8px;
+background:#375de5;color:white;cursor:pointer}
+button:hover{background:#203fae}
+#current{padding:25px;background:#eaf0ff;border-radius:10px;
+text-align:center;overflow-wrap:anywhere}
+li{padding:9px;border-bottom:1px solid #eee}
+small{color:#65728a}
+</style>
+</head>
+<body>
+<header>
+<h1>🌐 Browser History Simulator</h1>
+<p>DSA Project | Stack + Doubly Linked List</p>
+</header>
+<main>
+<div class="card">
+<h2>Visit a Website</h2>
+<input id="url" placeholder="Enter website URL">
+<button onclick="visit()">Visit</button>
+</div>
+<div class="card">
+<h2>Browser Navigation</h2>
+<button onclick="back()">⬅ Back</button>
+<button onclick="forward()">Forward ➡</button>
+<h3>Current Website</h3>
+<div id="current">No website visited yet</div>
+</div>
+<div class="card">
+<h2>📜 Browsing History</h2>
+<ol id="history"></ol>
+<small>Demo interface — C++ DSA implementation is maintained separately.</small>
+</div>
+</main>
+<script>
+let pages=[], index=-1;
+function visit(){
+ let url=document.getElementById('url').value.trim();
+ if(!url)return alert('Enter a website URL');
+ if(!/^https?:\/\//i.test(url))url='https://'+url;
+ pages=pages.slice(0,index+1);
+ pages.push(url); index++;
+ render();
+}
+function back(){if(index>0){index--;render()}}
+function forward(){if(index<pages.length-1){index++;render()}}
+function render(){
+ document.getElementById('current').textContent=pages[index];
+ document.getElementById('history').innerHTML='';
+ pages.forEach((p,i)=>{
+ let li=document.createElement('li');
+ li.textContent=p+(i===index?'  ← Current':'');
+ document.getElementById('history').appendChild(li);
+ });
+}
+</script>
+</body>
+</html>
